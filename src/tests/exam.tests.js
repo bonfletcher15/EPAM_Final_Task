@@ -1,43 +1,48 @@
-const { pages } = require('./../po');
+const LoginPage = require('../po/pages/login.page');
+const loginPage = new LoginPage();
+
+const DashboardPage = require('../po/pages/dashboard.page');
+const dashboardPage = new DashboardPage();
+
 const credentials = require('../data/credentials');
 const testData = require('../data/testData');
 
 describe('Login form testing', () => {
     beforeEach(async () => {
-        await pages("login").open();
+        await loginPage.open();
     })
 
     it('Test Login form with empty credentials', async () => {
 
-        await $('#user-name').setValue(credentials.sampleUser.username);
-        await $('#password').setValue(credentials.sampleUser.password);
+        await loginPage.setLogin(credentials.sampleUser.username);
+        await loginPage.setPassword(credentials.sampleUser.password);
 
-        await $('#user-name').clearValue();
-        await $('#password').clearValue();
+        await loginPage.clearLogin();
+        await loginPage.clearPassword();
         
-        await $('#login-button').click();
-        await expect($('h3')).toHaveText(testData.errorMessages.noUsername);
+        await loginPage.loginBtn.click();
+        await expect(loginPage.errorMsg).toHaveText(testData.errorMessages.noUsername);
     })
 
     it('Test Login form with credentials by passing Username', async () => {
 
-        await $('#user-name').setValue(credentials.sampleUser.username);
-        await $('#password').setValue(credentials.sampleUser.password);
+        await loginPage.setLogin(credentials.sampleUser.username);
+        await loginPage.setPassword(credentials.sampleUser.password);
 
-        await $('#password').clearValue();
+        await loginPage.clearPassword();
 
-        await $('#login-button').click();
+        await loginPage.loginBtn.click();
 
-        await expect($('h3')).toHaveText(testData.errorMessages.noPassword);
+        await expect(loginPage.errorMsg).toHaveText(testData.errorMessages.noPassword);
     })
 
     it('Test Login form with credentials by passing Username & Password', async () => {
 
-        await $('#user-name').setValue(credentials.getRandomUser());
+        await loginPage.setLogin(credentials.getRandomUser());
 
-        await $('#password').setValue(credentials.validUser.password);
+        await loginPage.setPassword(credentials.validUser.password);
 
-        await $('#login-button').click();
+        await loginPage.loginBtn.click();
 
         await expect(browser).toHaveTitle('Swag Labs');
     })
