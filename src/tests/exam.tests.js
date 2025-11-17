@@ -1,6 +1,8 @@
+const { pages } = require('./../po');
+
 describe('Login form testing', () => {
     beforeEach(async () => {
-        await browser.url(`https://www.saucedemo.com/`);
+        await pages("login").open();
     })
 
     it('Test Login form with empty credentials', async () => {
