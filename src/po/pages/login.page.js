@@ -35,7 +35,7 @@ class LoginPage extends BasePage {
     }
 
     get errorMsg() {
-        return $('h3');
+        return $('.error-message-container h3');
     }
 
 }
